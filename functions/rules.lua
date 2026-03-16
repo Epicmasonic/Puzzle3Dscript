@@ -1,6 +1,20 @@
 --- @diagnostic disable: undefined-global, undefined-field, undefined-doc-name
 
--- What will go here? :3
+local function runEarlyRules()
+	
+end
+
+local function runMovement()
+	
+end
+
+local function runLateRules()
+	
+end
+
+local function runTurn()
+	
+end
 
 return {
 	
