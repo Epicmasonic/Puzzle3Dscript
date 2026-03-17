@@ -20,46 +20,61 @@ Puzzl3D["World"] = {
 	["Blocks"] = {
 		{
 			["Type"] = "Player",
-			["Position"] = {0, 0, 0}
+			["Position"] = {0, 0, 0},
+			["Movement"] = "None"
 		},
 		{
 			["Type"] = "Wall",
-			["Position"] = {3, 0, 0}
+			["Position"] = {3, 0, 0},
+			["Movement"] = "None"
 		},
 		{
 			["Type"] = "Wall",
-			["Position"] = {3, 0, 1}
+			["Position"] = {3, 0, 1},
+			["Movement"] = "None"
 		},
 		{
 			["Type"] = "Box",
-			["Position"] = {2, 0, 1}
+			["Position"] = {2, 0, 1},
+			["Movement"] = "None"
 		}
 	}
 }
 
+print("\n=================================\n")
+term.setGraphicsMode(1)
+term.clear()
+
 local renderer = require("functions.renderer")
 local inputs = require("functions.inputs")
-local data = require("functions.rules")
-
-term.setGraphicsMode(1)
-
-term.clear()
+local rules = require("functions.rules")
 
 local stepSize = 6
 while true do
 	renderer.buildWorld(Puzzl3D["World"], Puzzl3D["Block Types"])
 	
 	local key = inputs.waitForInput()
-	if key == keys.up or key == keys.right or key == keys.down or key == keys.left then
-		if key == keys.up then
-			renderer.moveCamera("Up")
-		elseif key == keys.right then
-			renderer.moveCamera("Right")
-		elseif key == keys.down then
-			renderer.moveCamera("Down")
-		elseif key == keys.left then
-			renderer.moveCamera("Left")
-		end
+	--Camera Movement
+	if key == keys.up then
+		renderer.moveCamera("Up")
+	elseif key == keys.right then
+		renderer.moveCamera("Right")
+	elseif key == keys.down then
+		renderer.moveCamera("Down")
+	elseif key == keys.left then
+		renderer.moveCamera("Left")
+	elseif key == keys.e then
+		rules.runTurn("Up")
+	elseif key == keys.q then
+		rules.runTurn("Down")
+	elseif key == keys.w then
+		rules.runTurn(inputs.normalizeMovement(Puzzl3D["Camera"], "North"))
+	elseif key == keys.a then
+		rules.runTurn(inputs.normalizeMovement(Puzzl3D["Camera"], "West"))
+	elseif key == keys.s then
+		rules.runTurn(inputs.normalizeMovement(Puzzl3D["Camera"], "South"))
+	elseif key == keys.d then
+		rules.runTurn(inputs.normalizeMovement(Puzzl3D["Camera"], "East"))
 	end
 	
 --	sleep(0.1)

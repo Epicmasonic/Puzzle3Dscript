@@ -138,7 +138,11 @@ while true do
 			
 			speed, axis = inputs.normalizeMovement(camera, speed, axis)
 			if axis == "X" then
-				player[1] = player[1] + speed
+				for _, block in pairs(Puzzl3D["World"]["Blocks"]) do
+					if block["Type"] == "Player" then
+						block["Position"][1] = block["Position"][1] + speed
+					end
+				end
 			elseif axis == "Z" then
 				player[3] = player[3] + speed
 			end

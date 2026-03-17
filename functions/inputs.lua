@@ -31,33 +31,42 @@ end
 
 --- Normalizes movement input based on the camera's rotation
 --- @param camera {[1]: number, [2]: number, [3]: number, [4]: number, [5]: number} The X, Y, and Z coordinates of the camera in 3D space as well as the camera's pitch and yaw in degrees
---- @param speed number The speed of the movement (Should often be 1 or -1)
---- @param axis string The axis to move along, either "X", "Y", or "Z"
---- @return number speed The new speed of the movement (Should still often be 1 or -1)
---- @return string axis The new axis to move along, either "X", "Y", or "Z"
-local function normalizeMovement(camera, speed, axis)
+--- @param direction string The axis to move along, either "X", "Y", or "Z"
+--- @return string newDirection The new axis to move along, either "X", "Y", or "Z"
+local function normalizeMovement(camera, direction)
 	if camera[5] % 360 > 45 and camera[5] % 360 <= 135 then -- Looking from the right
---	if camera[5] % 360 >= 90 and camera[5] % 360 < 180 then
-		if axis == "X" then
-			axis = "Z"
-		elseif axis == "Z" then
-			axis = "X"
-			speed = -speed
+		if direction == "North" then
+			direction = "West"
+		elseif direction == "East" then
+			direction = "North"
+		elseif direction == "South" then
+			direction = "East"
+		elseif direction == "West" then
+			direction = "South"
 		end
 	elseif camera[5] % 360 > 135 and camera[5] % 360 <= 225 then -- Looking from the back
---	elseif camera[5] % 360 >= 180 and camera[5] % 360 < 270 then
-		speed = -speed
+		if direction == "North" then
+			direction = "South"
+		elseif direction == "East" then
+			direction = "West"
+		elseif direction == "South" then
+			direction = "North"
+		elseif direction == "West" then
+			direction = "East"
+		end
 	elseif camera[5] % 360 > 225 and camera[5] % 360 <= 315 then -- Looking from the left
---	elseif camera[5] % 360 >= 270 then
-		if axis == "X" then
-			axis = "Z"
-			speed = -speed
-		elseif axis == "Z" then
-			axis = "X"
+		if direction == "North" then
+			direction = "East"
+		elseif direction == "East" then
+			direction = "South"
+		elseif direction == "South" then
+			direction = "West"
+		elseif direction == "West" then
+			direction = "North"
 		end
 	end
 	
-	return speed, axis
+	return direction
 end
 
 return {
