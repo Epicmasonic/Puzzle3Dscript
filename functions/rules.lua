@@ -79,41 +79,95 @@ local function checkRule(rule)
 	while true do
 		local changeMade = false
 		for x = 0, Puzzl3D["World"]["Size"][1] - farthestX do
-			for y = 0, Puzzl3D["World"]["Size"][2] - farthestY do
-				for z = 0, Puzzl3D["World"]["Size"][3] - farthestZ do
-					local checkPassed = true
-					for _, block in pairs(rule["Before"]) do
-						 local layer = getLayer(block)
-						 local foundBlock = getBlocks({x + block["Position"][1], y + block["Position"][2], z + block["Position"][3]}, layer)
-						 
-						 if foundBlock["Type"] ~= block["Type"] or foundBlock["Movement"] ~= block["Movement"] then
-							checkPassed = false
-							break
-						 end
-					end
-					
-					if checkPassed then
-						-- Turn `before` into `after`
-					end
+		for y = 0, Puzzl3D["World"]["Size"][2] - farthestY do
+		for z = 0, Puzzl3D["World"]["Size"][3] - farthestZ do
+			local checkPassed = true
+			for _, block in pairs(rule["Before"]) do
+				local layer = getLayer(block)
+				local foundBlock = getBlocks({x + block["Position"][1], y + block["Position"][2], z + block["Position"][3]}, layer)
+				
+				if not foundBlock or foundBlock["Type"] ~= block["Type"] or foundBlock["Movement"] ~= block["Movement"] then
+					checkPassed = false
+					break
 				end
 			end
-		end
+			
+			if checkPassed then
+				print("Ran a rule at "..x..", "..y..", "..z)
+				changeMade = true
+				changeMadeOnce = true
+				
+				-- Turn `before` into `after`
+			--	print("Before applying match at "..x..", "..y..", "..z)
+			--	for i, b in pairs(Puzzl3D["World"]["Blocks"]) do
+			--		print("  "..i..": "..b["Type"].." at "..b["Position"][1]..","..b["Position"][2]..","..b["Position"][3].." "..b["Movement"])
+			--	end
+				
+				local toRemove = {}
+				for _, beforeBlock in pairs(rule["Before"]) do
+					local position = {x + beforeBlock["Position"][1], y + beforeBlock["Position"][2], z + beforeBlock["Position"][3]}
+					local layer = getLayer(beforeBlock)
+					
+					for index, block in pairs(Puzzl3D["World"]["Blocks"]) do
+						if block["Position"][1] == position[1] and block["Position"][2] == position[2] and block["Position"][3] == position[3] and getLayer(block) == layer then
+							print("  Adding to toRemove: index "..index.." ("..block["Type"].." at "..block["Position"][1]..","..block["Position"][2]..","..block["Position"][3]..")")
+							table.insert(toRemove, index)
+						end
+					end
+				end
+				
+				table.sort(toRemove)
+				for i = #toRemove, 1, -1 do
+					table.remove(Puzzl3D["World"]["Blocks"], toRemove[i])
+				end
+				
+			--	print("Half way though applying match at "..x..", "..y..", "..z)
+			--	for i, b in pairs(Puzzl3D["World"]["Blocks"]) do
+			--		print("  "..i..": "..b["Type"].." at "..b["Position"][1]..","..b["Position"][2]..","..b["Position"][3].." "..b["Movement"])
+			--	end
+				
+				for _, afterBlock in pairs(rule["After"]) do
+					local updatedAfterBlock = {
+						["Type"] = afterBlock["Type"],
+						["Position"] = {x + afterBlock["Position"][1], y + afterBlock["Position"][2], z + afterBlock["Position"][3]},
+						["Movement"] = afterBlock["Movement"]
+					}
+					
+					table.insert(Puzzl3D["World"]["Blocks"], updatedAfterBlock)
+				end
+				
+			--	print("After applying match at "..x..", "..y..", "..z)
+			--	for i, b in pairs(Puzzl3D["World"]["Blocks"]) do
+			--		print("  "..i..": "..b["Type"].." at "..b["Position"][1]..","..b["Position"][2]..","..b["Position"][3].." "..b["Movement"])
+			--	end
+			end
+		end end end
 		
-		if changeMade then
+		if not changeMade then
 			return changeMadeOnce
 		end
 	end
 end
 
 local function checkRuleGroup(ruleGroup)
-	
+	while true do
+		local changeMade = false
+		
+		for _, rule in pairs(ruleGroup) do
+			changeMade = checkRule(rule) or changeMade
+		end
+		
+		if not changeMade then
+			return
+		end
+	end
 end
 
 -- Cool stuff
 
 local function runEarlyRules()
 	for _, ruleGroup in pairs(Puzzl3D["Rules"]) do
-		
+		checkRuleGroup(ruleGroup)
 	end
 end
 
