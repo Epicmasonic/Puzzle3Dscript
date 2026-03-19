@@ -138,7 +138,7 @@ Puzzl3D["Rules"] = { -- This is actually rule GROUPS but...
 					["Movement"] = "None"
 				},
 				{
-					["Type"] = "Playe",
+					["Type"] = "Player",
 					["Position"] = {0, 1, 0},
 					["Movement"] = "None"
 				}
