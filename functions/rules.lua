@@ -1,33 +1,149 @@
 --- @diagnostic disable: undefined-global, undefined-field, undefined-doc-name
 
-print("Successful Compilation\n")
+-- Helper functions
 
 local function movePlayer(command)
 	for _, block in pairs(Puzzl3D["World"]["Blocks"]) do
 		if block["Type"] == "Player" then
-			if command == "North" and block["Position"][3] ~= Puzzl3D["World"]["Size"][3] - 1 then
-				block["Position"][3] = block["Position"][3] + 1
-			elseif command == "South" and block["Position"][3] > 0 then
-				block["Position"][3] = block["Position"][3] - 1
-			elseif command == "East" and block["Position"][1] ~= Puzzl3D["World"]["Size"][1] - 1 then
-				block["Position"][1] = block["Position"][1] + 1
-			elseif command == "West" and block["Position"][1] > 0 then
-				block["Position"][1] = block["Position"][1] - 1
-			elseif command == "Up" and block["Position"][2] ~= Puzzl3D["World"]["Size"][2] - 1 then
-				block["Position"][2] = block["Position"][2] + 1
-			elseif command == "Down" and block["Position"][2] > 0 then
-				block["Position"][2] = block["Position"][2] - 1
-			end
+			block["Movement"] = command
+			
+--			if command == "North" and block["Position"][3] ~= Puzzl3D["World"]["Size"][3] - 1 then
+--				block["Position"][3] = block["Position"][3] + 1
+--			elseif command == "South" and block["Position"][3] > 0 then
+--				block["Position"][3] = block["Position"][3] - 1
+--			elseif command == "East" and block["Position"][1] ~= Puzzl3D["World"]["Size"][1] - 1 then
+--				block["Position"][1] = block["Position"][1] + 1
+--			elseif command == "West" and block["Position"][1] > 0 then
+--				block["Position"][1] = block["Position"][1] - 1
+--			elseif command == "Up" and block["Position"][2] ~= Puzzl3D["World"]["Size"][2] - 1 then
+--				block["Position"][2] = block["Position"][2] + 1
+--			elseif command == "Down" and block["Position"][2] > 0 then
+--				block["Position"][2] = block["Position"][2] - 1
+--			end
 		end
 	end
 end
+
+---Gets all the blocks at a specific location
+---@param position {[1]: number, [2]: number, [3]: number, [4]: number, [5]: number}
+---@param layer? number
+---@return table|Block
+local function getBlocks(position, layer)
+	local foundBlocks = {}
+	
+	for _, block in pairs(Puzzl3D["World"]["Blocks"]) do
+		if block["Position"][1] == position[1] and block["Position"][2] == position[2] and block["Position"][3] == position[3] then
+			if layer then
+				local blockLayer
+					for name, info in pairs(Puzzl3D["Block Types"]) do
+						if name == block["Type"] then
+							blockLayer = info["Layer"]
+							break
+						end
+					end
+				
+				if blockLayer == layer then
+					return block
+				end
+			else
+				table.insert(foundBlocks, block)
+			end
+		end
+	end
+	
+	if not layer then
+		return foundBlocks
+	end
+	return false
+end
+
+-- Cool stuff
 
 local function runEarlyRules()
 	
 end
 
 local function runMovement()
-	
+	while true do
+		local changeMade = false
+		
+		for _, block in pairs(Puzzl3D["World"]["Blocks"]) do
+			local layer
+			for name, info in pairs(Puzzl3D["Block Types"]) do
+				if name == block["Type"] then
+					layer = info["Layer"]
+					break
+				end
+			end
+			
+			if block["Movement"] == "North" then
+				local otherBlock = getBlocks({block["Position"][1], block["Position"][2], block["Position"][3] + 1}, layer)
+				print(otherBlock)
+				
+				if otherBlock and otherBlock["Movement"] == "None" then
+					block["Movement"] = "None"
+				elseif block["Position"][3] < Puzzl3D["World"]["Size"][3] - 1 and not otherBlock then
+					changeMade = true
+					block["Position"][3] = block["Position"][3] + 1
+					block["Movement"] = "None"
+				end
+			elseif block["Movement"] == "South" then
+				local otherBlock = getBlocks({block["Position"][1], block["Position"][2], block["Position"][3] - 1}, layer)
+				
+				if otherBlock and otherBlock["Movement"] == "None" then
+					block["Movement"] = "None"
+				elseif block["Position"][3] > 0 and not otherBlock then
+					changeMade = true
+					block["Position"][3] = block["Position"][3] - 1
+					block["Movement"] = "None"
+				end
+			elseif block["Movement"] == "East" then
+				local otherBlock = getBlocks({block["Position"][1] + 1, block["Position"][2], block["Position"][3]}, layer)
+				
+				if otherBlock and otherBlock["Movement"] == "None" then
+					block["Movement"] = "None"
+				elseif block["Position"][1] < Puzzl3D["World"]["Size"][1] - 1 and not otherBlock then
+					changeMade = true
+					block["Position"][1] = block["Position"][1] + 1
+					block["Movement"] = "None"
+				end
+			elseif block["Movement"] == "West" then
+				local otherBlock = getBlocks({block["Position"][1] - 1, block["Position"][2], block["Position"][3]}, layer)
+				
+				if otherBlock and otherBlock["Movement"] == "None" then
+					block["Movement"] = "None"
+				elseif block["Position"][1] > 0 and not otherBlock then
+					changeMade = true
+					block["Position"][1] = block["Position"][1] - 1
+					block["Movement"] = "None"
+				end
+			elseif block["Movement"] == "Up" then
+				local otherBlock = getBlocks({block["Position"][1], block["Position"][2] + 1, block["Position"][3]}, layer)
+				
+				if otherBlock and otherBlock["Movement"] == "None" then
+					block["Movement"] = "None"
+				elseif block["Position"][2] < Puzzl3D["World"]["Size"][2] - 1 and not otherBlock then
+					changeMade = true
+					block["Position"][2] = block["Position"][2] + 1
+					block["Movement"] = "None"
+				end
+			elseif block["Movement"] == "Down" then
+				local otherBlock = getBlocks({block["Position"][1], block["Position"][2] - 1, block["Position"][3]}, layer)
+				
+				if otherBlock and otherBlock["Movement"] == "None" then
+					block["Movement"] = "None"
+				elseif block["Position"][2] > 0 and not otherBlock then
+					changeMade = true
+					block["Position"][2] = block["Position"][2] - 1
+					block["Movement"] = "None"
+				end
+			end
+		end
+		
+		if not changeMade then
+			return
+		end
+	end
 end
 
 local function runLateRules()
@@ -36,10 +152,15 @@ end
 
 local function runTurn(command)
 	print("Applying rules")
+	movePlayer(command)
 	print("Turn starts with input of "..string.lower(command)..".")
 	
-	movePlayer(command)
+	runEarlyRules()
+	
+	runMovement()
 	print("Processed movements.")
+	
+	runLateRules()
 	
 	print("Turn commplete\n")
 end

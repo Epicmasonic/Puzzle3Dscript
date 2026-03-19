@@ -5,13 +5,20 @@ Puzzl3D = {}
 -- For testing
 Puzzl3D["Block Types"] = {
 	["Player"] = {
-		["Color"] = colors.purple
+		["Color"] = colors.purple,
+		["Layer"] = 0
 	},
 	["Wall"] = {
-		["Color"] = colors.brown
+		["Color"] = colors.brown,
+		["Layer"] = 0
 	},
 	["Box"] = {
-		["Color"] = colors.orange
+		["Color"] = colors.orange,
+		["Layer"] = 0
+	},
+	["Grass"] = {
+		["Color"] = colors.green,
+		["Layer"] = 1
 	}
 }
 
@@ -21,6 +28,11 @@ Puzzl3D["World"] = {
 		{
 			["Type"] = "Player",
 			["Position"] = {0, 0, 0},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {0, 0, 2},
 			["Movement"] = "None"
 		},
 		{
