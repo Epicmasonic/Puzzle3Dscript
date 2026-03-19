@@ -16,23 +16,38 @@ Puzzl3D["Block Types"] = {
 		["Color"] = colors.orange,
 		["Layer"] = 0
 	},
-	["Grass"] = {
-		["Color"] = colors.green,
+	["Target"] = {
+		["Color"] = colors.blue,
 		["Layer"] = 1
 	}
 }
 
 Puzzl3D["World"] = {
-	["Size"] = {7, 5, 3},
+	["Size"] = {5, 3, 5},
 	["Blocks"] = {
 		{
 			["Type"] = "Player",
-			["Position"] = {0, 0, 0},
+			["Position"] = {1, 0, 2},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Target",
+			["Position"] = {0, 0, 2},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Box",
+			["Position"] = {2, 0, 1},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Box",
+			["Position"] = {0, 0, 2},
 			["Movement"] = "None"
 		},
 		{
 			["Type"] = "Wall",
-			["Position"] = {0, 0, 2},
+			["Position"] = {2, 0, 0},
 			["Movement"] = "None"
 		},
 		{
@@ -42,12 +57,52 @@ Puzzl3D["World"] = {
 		},
 		{
 			["Type"] = "Wall",
-			["Position"] = {3, 0, 1},
+			["Position"] = {4, 0, 0},
 			["Movement"] = "None"
 		},
 		{
-			["Type"] = "Box",
-			["Position"] = {2, 0, 1},
+			["Type"] = "Wall",
+			["Position"] = {4, 0, 1},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {4, 0, 2},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {4, 0, 3},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {4, 0, 4},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {3, 0, 4},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {2, 0, 4},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Target",
+			["Position"] = {1, 0, 4},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {2, 0, 3},
+			["Movement"] = "None"
+		},
+		{
+			["Type"] = "Wall",
+			["Position"] = {3, 0, 3},
 			["Movement"] = "None"
 		}
 	}

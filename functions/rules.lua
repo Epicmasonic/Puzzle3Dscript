@@ -78,7 +78,6 @@ local function runMovement()
 			
 			if block["Movement"] == "North" then
 				local otherBlock = getBlocks({block["Position"][1], block["Position"][2], block["Position"][3] + 1}, layer)
-				print(otherBlock)
 				
 				if otherBlock and otherBlock["Movement"] == "None" then
 					block["Movement"] = "None"
