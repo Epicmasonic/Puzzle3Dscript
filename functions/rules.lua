@@ -164,7 +164,7 @@ local function runMovement()
 			if block["Movement"] == "North" then
 				local otherBlock = getBlocks({block["Position"][1], block["Position"][2], block["Position"][3] + 1}, layer)
 				
-				if otherBlock and otherBlock["Movement"] == "None" then
+				if (otherBlock and otherBlock["Movement"] == "None") or block["Position"][3] >= Puzzl3D["World"]["Size"][3] - 1 then
 					block["Movement"] = "None"
 				elseif block["Position"][3] < Puzzl3D["World"]["Size"][3] - 1 and not otherBlock then
 					changeMade = true
@@ -174,7 +174,7 @@ local function runMovement()
 			elseif block["Movement"] == "South" then
 				local otherBlock = getBlocks({block["Position"][1], block["Position"][2], block["Position"][3] - 1}, layer)
 				
-				if otherBlock and otherBlock["Movement"] == "None" then
+				if (otherBlock and otherBlock["Movement"] == "None") or block["Position"][3] <= 0 then
 					block["Movement"] = "None"
 				elseif block["Position"][3] > 0 and not otherBlock then
 					changeMade = true
@@ -184,7 +184,7 @@ local function runMovement()
 			elseif block["Movement"] == "East" then
 				local otherBlock = getBlocks({block["Position"][1] + 1, block["Position"][2], block["Position"][3]}, layer)
 				
-				if otherBlock and otherBlock["Movement"] == "None" then
+				if (otherBlock and otherBlock["Movement"] == "None") or block["Position"][1] >= Puzzl3D["World"]["Size"][1] then
 					block["Movement"] = "None"
 				elseif block["Position"][1] < Puzzl3D["World"]["Size"][1] - 1 and not otherBlock then
 					changeMade = true
@@ -194,7 +194,7 @@ local function runMovement()
 			elseif block["Movement"] == "West" then
 				local otherBlock = getBlocks({block["Position"][1] - 1, block["Position"][2], block["Position"][3]}, layer)
 				
-				if otherBlock and otherBlock["Movement"] == "None" then
+				if (otherBlock and otherBlock["Movement"] == "None") or block["Position"][1] <= 0 and not otherBlock then
 					block["Movement"] = "None"
 				elseif block["Position"][1] > 0 and not otherBlock then
 					changeMade = true
@@ -204,7 +204,7 @@ local function runMovement()
 			elseif block["Movement"] == "Up" then
 				local otherBlock = getBlocks({block["Position"][1], block["Position"][2] + 1, block["Position"][3]}, layer)
 				
-				if otherBlock and otherBlock["Movement"] == "None" then
+				if (otherBlock and otherBlock["Movement"] == "None") or block["Position"][2] >= Puzzl3D["World"]["Size"][2] - 1 then
 					block["Movement"] = "None"
 				elseif block["Position"][2] < Puzzl3D["World"]["Size"][2] - 1 and not otherBlock then
 					changeMade = true
@@ -214,7 +214,7 @@ local function runMovement()
 			elseif block["Movement"] == "Down" then
 				local otherBlock = getBlocks({block["Position"][1], block["Position"][2] - 1, block["Position"][3]}, layer)
 				
-				if otherBlock and otherBlock["Movement"] == "None" then
+				if (otherBlock and otherBlock["Movement"] == "None") or block["Position"][2] <= 0 then
 					block["Movement"] = "None"
 				elseif block["Position"][2] > 0 and not otherBlock then
 					changeMade = true
