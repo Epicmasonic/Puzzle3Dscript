@@ -133,6 +133,62 @@ Puzzl3D["Rules"] = { -- This is actually rule GROUPS but...
 		{
 			["Before"] = {
 				{
+					["Type"] = "Player",
+					["Position"] = {0, 1, 0},
+					["Movement"] = "Up"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "None"
+				}
+			},
+			["After"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 1, 0},
+					["Movement"] = "Up"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "Up"
+				}
+			}
+		}
+	},
+	{
+		{
+			["Before"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 1, 0},
+					["Movement"] = "Down"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "None"
+				}
+			},
+			["After"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 1, 0},
+					["Movement"] = "Down"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "Down"
+				}
+			}
+		}
+	},
+	{
+		{
+			["Before"] = {
+				{
 					["Type"] = "None",
 					["Position"] = {0, 0, 0},
 					["Movement"] = "None"
