@@ -81,7 +81,23 @@ local function buildWorld(world, blockTypes)
 		(world["Size"][3] - 1) / -2
 	}
 	for _, block in pairs(world["Blocks"]) do
-		graphics.drawVoxel(Puzzl3D["Camera"], {blockOrigin[1] + block["Position"][1], blockOrigin[2] + block["Position"][2], blockOrigin[3] + block["Position"][3]}, blockTypes[block["Type"]]["Color"], colors.gray)
+		local layer
+		for name, info in pairs(Puzzl3D["Block Types"]) do
+			if name == block["Type"] then
+				layer = info["Layer"]
+				break
+			end
+		end
+		
+		graphics.drawBox(
+			Puzzl3D["Camera"],
+			{blockOrigin[1] + block["Position"][1], blockOrigin[2] + block["Position"][2], blockOrigin[3] + block["Position"][3]},
+			1 - layer / 20,
+			1 - layer / 20,
+			1 - layer / 20,
+			blockTypes[block["Type"]]["Color"],
+			colors.gray
+		)
 	end
 	
 	drawBorder(Puzzl3D["Camera"], Puzzl3D["World"]["Size"][1] + 0.1, Puzzl3D["World"]["Size"][2] + 0.1, Puzzl3D["World"]["Size"][3] + 0.1, colors.white)
