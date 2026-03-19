@@ -24,6 +24,14 @@ local function movePlayer(command)
 	end
 end
 
+local function getLayer(block)
+	for name, info in pairs(Puzzl3D["Block Types"]) do
+		if name == block["Type"] then
+			return info["Layer"]
+		end
+	end
+end
+
 ---Gets all the blocks at a specific location
 ---@param position {[1]: number, [2]: number, [3]: number, [4]: number, [5]: number}
 ---@param layer? number
@@ -34,13 +42,7 @@ local function getBlocks(position, layer)
 	for _, block in pairs(Puzzl3D["World"]["Blocks"]) do
 		if block["Position"][1] == position[1] and block["Position"][2] == position[2] and block["Position"][3] == position[3] then
 			if layer then
-				local blockLayer
-					for name, info in pairs(Puzzl3D["Block Types"]) do
-						if name == block["Type"] then
-							blockLayer = info["Layer"]
-							break
-						end
-					end
+				local blockLayer = getLayer(block)
 				
 				if blockLayer == layer then
 					return block
@@ -57,10 +59,62 @@ local function getBlocks(position, layer)
 	return false
 end
 
+local function checkRule(rule)
+	local farthestX = 0
+	local farthestY = 0
+	local farthestZ = 0
+	for _, block in pairs(rule["Before"]) do
+		if block["Position"][1] > farthestX then
+			farthestX = block["Position"][1]
+		end
+		if block["Position"][2] > farthestY then
+			farthestY = block["Position"][2]
+		end
+		if block["Position"][3] > farthestZ then
+			farthestZ = block["Position"][3]
+		end
+	end
+	
+	local changeMadeOnce = false
+	while true do
+		local changeMade = false
+		for x = 0, Puzzl3D["World"]["Size"][1] - farthestX do
+			for y = 0, Puzzl3D["World"]["Size"][2] - farthestY do
+				for z = 0, Puzzl3D["World"]["Size"][3] - farthestZ do
+					local checkPassed = true
+					for _, block in pairs(rule["Before"]) do
+						 local layer = getLayer(block)
+						 local foundBlock = getBlocks({x + block["Position"][1], y + block["Position"][2], z + block["Position"][3]}, layer)
+						 
+						 if foundBlock["Type"] ~= block["Type"] or foundBlock["Movement"] ~= block["Movement"] then
+							checkPassed = false
+							break
+						 end
+					end
+					
+					if checkPassed then
+						-- Turn `before` into `after`
+					end
+				end
+			end
+		end
+		
+		if changeMade then
+			return changeMadeOnce
+		end
+	end
+end
+
+local function checkRuleGroup(ruleGroup)
+	
+end
+
 -- Cool stuff
 
 local function runEarlyRules()
-	
+	for _, ruleGroup in pairs(Puzzl3D["Rules"]) do
+		
+	end
 end
 
 local function runMovement()
@@ -68,13 +122,7 @@ local function runMovement()
 		local changeMade = false
 		
 		for _, block in pairs(Puzzl3D["World"]["Blocks"]) do
-			local layer
-			for name, info in pairs(Puzzl3D["Block Types"]) do
-				if name == block["Type"] then
-					layer = info["Layer"]
-					break
-				end
-			end
+			local layer = getLayer(block)
 			
 			if block["Movement"] == "North" then
 				local otherBlock = getBlocks({block["Position"][1], block["Position"][2], block["Position"][3] + 1}, layer)

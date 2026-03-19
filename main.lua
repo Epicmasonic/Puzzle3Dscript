@@ -22,6 +22,115 @@ Puzzl3D["Block Types"] = {
 	}
 }
 
+Puzzl3D["Rules"] = { -- This is actually rule GROUPS but...
+	{
+		{
+			["Before"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "North"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 1},
+					["Movement"] = "None"
+				}
+			},
+			["After"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "North"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 1},
+					["Movement"] = "North"
+				}
+			}
+		},
+		{
+			["Before"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "East"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {1, 0, 0},
+					["Movement"] = "None"
+				}
+			},
+			["After"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "East"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {1, 0, 0},
+					["Movement"] = "East"
+				}
+			}
+		},
+		{
+			["Before"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 1},
+					["Movement"] = "South"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "None"
+				}
+			},
+			["After"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 1},
+					["Movement"] = "South"
+				},
+				{
+					["Type"] = "Box",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "South"
+				}
+			}
+		},
+		{
+			["Before"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {1, 0, 0},
+					["Movement"] = "West"
+				},
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "None"
+				}
+			},
+			["After"] = {
+				{
+					["Type"] = "Player",
+					["Position"] = {1, 0, 0},
+					["Movement"] = "West"
+				},
+				{
+					["Type"] = "Player",
+					["Position"] = {0, 0, 0},
+					["Movement"] = "West"
+				}
+			}
+		}
+	}
+}
+
 Puzzl3D["World"] = {
 	["Size"] = {4, 3, 5},
 	["Blocks"] = {
