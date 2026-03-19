@@ -23,7 +23,7 @@ Puzzl3D["Block Types"] = {
 }
 
 Puzzl3D["World"] = {
-	["Size"] = {5, 3, 5},
+	["Size"] = {4, 3, 5},
 	["Blocks"] = {
 		{
 			["Type"] = "Player",
@@ -53,31 +53,6 @@ Puzzl3D["World"] = {
 		{
 			["Type"] = "Wall",
 			["Position"] = {3, 0, 0},
-			["Movement"] = "None"
-		},
-		{
-			["Type"] = "Wall",
-			["Position"] = {4, 0, 0},
-			["Movement"] = "None"
-		},
-		{
-			["Type"] = "Wall",
-			["Position"] = {4, 0, 1},
-			["Movement"] = "None"
-		},
-		{
-			["Type"] = "Wall",
-			["Position"] = {4, 0, 2},
-			["Movement"] = "None"
-		},
-		{
-			["Type"] = "Wall",
-			["Position"] = {4, 0, 3},
-			["Movement"] = "None"
-		},
-		{
-			["Type"] = "Wall",
-			["Position"] = {4, 0, 4},
 			["Movement"] = "None"
 		},
 		{
