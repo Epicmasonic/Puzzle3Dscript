@@ -16,6 +16,17 @@ Puzzl3D["Camera"] = {
 	0        -- Yaw
 }
 
+local function orbitCamera()
+	-- Orbit the camera around the origin
+	Puzzl3D["Camera"][1] = math.cos(math.rad(Puzzl3D["Camera"][4])) * math.sin(math.rad(Puzzl3D["Camera"][5])) * radius
+	Puzzl3D["Camera"][2] = math.sin(math.rad(Puzzl3D["Camera"][4])) * radius
+	Puzzl3D["Camera"][3] = math.cos(math.rad(Puzzl3D["Camera"][4])) * -math.cos(math.rad(Puzzl3D["Camera"][5])) * radius
+end
+
+Puzzl3D["Camera"][4] = 45
+Puzzl3D["Camera"][5] = 22.5
+orbitCamera()
+
 --- Draws a wireframe box with variable size (but it's a differnt so I can workaround painter's algorithm)
 --- @param camera {[1]: number, [2]: number, [3]: number, [4]: number, [5]: number} The X, Y, and Z coordinates of the camera in 3D space as well as the camera's pitch and yaw in degrees
 --- @param width number The width of the cube
