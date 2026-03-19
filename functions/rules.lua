@@ -98,12 +98,6 @@ local function checkRule(rule)
 				changeMade = true
 				changeMadeOnce = true
 				
-				-- Turn `before` into `after`
-			--	print("Before applying match at "..x..", "..y..", "..z)
-			--	for i, b in pairs(Puzzl3D["World"]["Blocks"]) do
-			--		print("  "..i..": "..b["Type"].." at "..b["Position"][1]..","..b["Position"][2]..","..b["Position"][3].." "..b["Movement"])
-			--	end
-				
 				local toRemove = {}
 				for _, beforeBlock in pairs(rule["Before"]) do
 					local position = {x + beforeBlock["Position"][1], y + beforeBlock["Position"][2], z + beforeBlock["Position"][3]}
@@ -111,7 +105,6 @@ local function checkRule(rule)
 					
 					for index, block in pairs(Puzzl3D["World"]["Blocks"]) do
 						if block["Position"][1] == position[1] and block["Position"][2] == position[2] and block["Position"][3] == position[3] and getLayer(block) == layer then
-							print("  Adding to toRemove: index "..index.." ("..block["Type"].." at "..block["Position"][1]..","..block["Position"][2]..","..block["Position"][3]..")")
 							table.insert(toRemove, index)
 						end
 					end
@@ -122,11 +115,6 @@ local function checkRule(rule)
 					table.remove(Puzzl3D["World"]["Blocks"], toRemove[i])
 				end
 				
-			--	print("Half way though applying match at "..x..", "..y..", "..z)
-			--	for i, b in pairs(Puzzl3D["World"]["Blocks"]) do
-			--		print("  "..i..": "..b["Type"].." at "..b["Position"][1]..","..b["Position"][2]..","..b["Position"][3].." "..b["Movement"])
-			--	end
-				
 				for _, afterBlock in pairs(rule["After"]) do
 					local updatedAfterBlock = {
 						["Type"] = afterBlock["Type"],
@@ -136,11 +124,6 @@ local function checkRule(rule)
 					
 					table.insert(Puzzl3D["World"]["Blocks"], updatedAfterBlock)
 				end
-				
-			--	print("After applying match at "..x..", "..y..", "..z)
-			--	for i, b in pairs(Puzzl3D["World"]["Blocks"]) do
-			--		print("  "..i..": "..b["Type"].." at "..b["Position"][1]..","..b["Position"][2]..","..b["Position"][3].." "..b["Movement"])
-			--	end
 			end
 		end end end
 		
