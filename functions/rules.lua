@@ -104,7 +104,7 @@ local function checkRule(rule)
 					local layer = getLayer(beforeBlock)
 					
 					for index, block in pairs(Puzzl3D["World"]["Blocks"]) do
-						if block["Position"][1] == position[1] and block["Position"][2] == position[2] and block["Position"][3] == position[3] and getLayer(beforeBlock) == layer then
+						if block["Position"][1] == position[1] and block["Position"][2] == position[2] and block["Position"][3] == position[3] and getLayer(block) == layer then
 							table.insert(toRemove, index)
 						end
 					end
