@@ -86,7 +86,8 @@ local function checkRule(rule)
 				local layer = getLayer(block)
 				local foundBlock = getBlocks({x + block["Position"][1], y + block["Position"][2], z + block["Position"][3]}, layer)
 				
-				if not foundBlock or foundBlock["Type"] ~= block["Type"] or foundBlock["Movement"] ~= block["Movement"] then
+				if (block["Type"] ~= "None" and not foundBlock or foundBlock["Type"] ~= block["Type"] or foundBlock["Movement"] ~= block["Movement"]) or
+				   (block["Type"] == "None" and foundBlock) then
 					checkPassed = false
 					break
 				end
@@ -165,9 +166,11 @@ end
 
 -- Cool stuff
 
-local function runEarlyRules()
+local function runRules(timingFilter)
 	for _, ruleGroup in pairs(Puzzl3D["Rules"]) do
-		checkRuleGroup(ruleGroup)
+		if "Early" == timingFilter then
+			checkRuleGroup(ruleGroup)
+		end
 	end
 end
 
@@ -247,21 +250,17 @@ local function runMovement()
 	end
 end
 
-local function runLateRules()
-	
-end
-
 local function runTurn(command)
 	print("Applying rules")
 	movePlayer(command)
 	print("Turn starts with input of "..string.lower(command)..".")
 	
-	runEarlyRules()
+	runRules("Early")
 	
 	runMovement()
 	print("Processed movements.")
 	
-	runLateRules()
+	runRules("Late")
 	
 	print("Turn commplete\n")
 end
