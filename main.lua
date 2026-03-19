@@ -110,7 +110,7 @@ Puzzl3D["Rules"] = { -- This is actually rule GROUPS but...
 					["Movement"] = "West"
 				},
 				{
-					["Type"] = "Player",
+					["Type"] = "Box",
 					["Position"] = {0, 0, 0},
 					["Movement"] = "None"
 				}
@@ -122,7 +122,7 @@ Puzzl3D["Rules"] = { -- This is actually rule GROUPS but...
 					["Movement"] = "West"
 				},
 				{
-					["Type"] = "Player",
+					["Type"] = "Box",
 					["Position"] = {0, 0, 0},
 					["Movement"] = "West"
 				}
